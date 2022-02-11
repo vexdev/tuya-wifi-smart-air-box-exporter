@@ -1,0 +1,15 @@
+{
+  "name": "tuya-wifi-smart-air-box-exporter",
+  "version": "0.1.0",
+  "description": "Prometheus Exporter for the Tuya WiFi smart air box",
+  "author": "Luca Vitucci <luca@vitucci.ch>",
+  "main": "server.js",
+  "scripts": {
+    "start": "node ex.js"
+  },
+  "dependencies": {
+    "prom-client": "^14.0.1",
+    "tuyapi": "^7.2.1",
+    "yaml": "^1.10.2"
+  }
+}
