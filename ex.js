@@ -35,7 +35,8 @@ device.on('connected', () => {
 });
 
 device.on('disconnected', () => {
-  console.log('Disconnected from device.')
+  console.log('Disconnected from device. Retrying in 10 seconds...')
+  setTimeout(() => {device.connect()}, 10000)
 });
 
 device.on('error', error => {
