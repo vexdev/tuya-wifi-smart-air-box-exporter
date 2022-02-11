@@ -5,6 +5,8 @@ const client = require('prom-client');
 const Registry = client.Registry;
 const http = require('http')
 const url = require('url')
+const YAML = require('yaml')
+const fs = require('fs')
 
 const register = new client.Registry()
 const gaugeCo2 = new client.Gauge({ name: 'tuya_co2', help: 'CO2 in PPM' });
@@ -18,30 +20,26 @@ register.registerMetric(gaugeHumidity)
 register.registerMetric(gaugeVoc)
 register.registerMetric(gaugeCh2o)
 
-const device = new TuyAPI({
-  id: '32070506e868e7ea32ee',
-  key: '67399f2ecda1573b',
-  ip: '192.168.2.33',
-  version: '3.3',
-  issueRefreshOnConnect: false
-});
+const configFile = fs.readFileSync('./config.yml', 'utf8')
+const file = YAML.parse(configFile)
+const device = new TuyAPI(file.device)
 // Find device on network
 device.find().then(() => {
   // Connect to device
-  device.connect();
+  device.connect()
 });
 
 // Add event listeners
 device.on('connected', () => {
-  console.log('Connected to device!');
+  console.log('Connected to device!')
 });
 
 device.on('disconnected', () => {
-  console.log('Disconnected from device.');
+  console.log('Disconnected from device.')
 });
 
 device.on('error', error => {
-  console.log('Error!', error);
+  console.log('Error!', error)
 });
 
 device.on('dp-refresh', data => {
